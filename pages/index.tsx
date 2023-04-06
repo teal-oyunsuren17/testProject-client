@@ -1,25 +1,19 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-interface IMovie {
-  _id: String;
-  title: String;
-}
-
-export default function Home() {
-  const [list, setList] = useState([]);
-  useEffect(() => {
-    axios.get("http://localhost:8000/movies").then((res) => {
-      const { data, status } = res;
-      setList(data);
-    });
-  }, []);
-
+export default function MoviesClient({ movies }: any) {
   return (
     <>
-      {list.map((l) => {
-        <p>{l["title"]}</p>;
-      })}
+      <div>{movies}</div>
+      {console.log(movies)}
     </>
   );
+}
+
+export async function getServerSieProps() {
+  const moviesRequest = await fetch("http://localhost:8000/movies");
+  const moviesData = await moviesRequest.json();
+  // console.log(moviesData);
+  return {
+    props: {
+      movies: moviesData,
+    },
+  };
 }
