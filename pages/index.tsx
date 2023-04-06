@@ -1,8 +1,8 @@
 export default function MoviesClient({ movies }: any) {
   return (
     <>
-      <div>{movies}</div>
-      {console.log(movies)}
+      Movie
+      <div>{movies[0].title}</div>
     </>
   );
 }
