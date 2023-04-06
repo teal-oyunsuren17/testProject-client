@@ -1,7 +1,6 @@
 export default function MoviesClient({ movies }: any) {
   return (
     <>
-      Movie
       <div>{movies[0].title}</div>
     </>
   );
