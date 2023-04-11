@@ -1,73 +1,48 @@
-// import React from "react";
-// import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
+import { useLoadScript, GoogleMap } from "@react-google-maps/api";
+import type { NextPage } from "next";
+import { useMemo } from "react";
+import styles from "../styles/Home.module.css";
 
-// export default function Map() {
-//   interface Props {
-//     latitude: number;
-//     longitude: number;
-//   }
+const Home: NextPage = () => {
+  const libraries = useMemo(() => ["places"], []);
+  const mapCenter = useMemo(
+    () => ({ lat: 27.672932021393862, lng: 85.31184012689732 }),
+    []
+  );
 
-//   interface State {
-//     activeMarker: any;
-//     selectedPlace: any;
-//   }
+  const mapOptions = useMemo<google.maps.MapOptions>(
+    () => ({
+      disableDefaultUI: true,
+      clickableIcons: true,
+      scrollwheel: false,
+    }),
+    []
+  );
 
-//   class MapComponent extends React.Component<Props, State> {
-//     state = {
-//       activeMarker: null,
-//       selectedPlace: null,
-//     };
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "",
+    libraries: libraries as any,
+  });
 
-//     onMarkerClick = (props: any, marker: any, e: any) => {
-//       this.setState({
-//         activeMarker: marker,
-//         selectedPlace: props,
-//       });
-//     };
+  if (!isLoaded) {
+    return <p>Loading...</p>;
+  }
 
-//     render() {
-//       return (
-//         <GoogleMap
-//           initialCenter={{
-//             lat: this.props.latitude,
-//             lng: this.props.longitude,
-//           }}
-//           zoom={14}
-//         >
-//           <Marker
-//             onClick={this.onMarkerClick}
-//             name={"Current location"}
-//             position={{ lat: this.props.latitude, lng: this.props.longitude }}
-//           />
-//           <InfoWindow
-//             marker={this.state.activeMarker}
-//             visible={!!this.state.activeMarker}
-//           >
-//             <div>
-//               <h3>
-//                 {this.state.selectedPlace && this.state.selectedPlace.name}
-//               </h3>
-//             </div>
-//           </InfoWindow>
-//         </GoogleMap>
-//       );
-//     }
-//   }
+  return (
+    <div className={styles.homeWrapper}>
+      <div className={styles.sidebar}>
+        <p>This is Sidebar...</p>
+      </div>
+      <GoogleMap
+        options={mapOptions}
+        zoom={14}
+        center={mapCenter}
+        mapTypeId={google.maps.MapTypeId.ROADMAP}
+        mapContainerStyle={{ width: "800px", height: "800px" }}
+        onLoad={() => console.log("Map Component Loaded...")}
+      />
+    </div>
+  );
+};
 
-//   function MyPage() {
-//     const latitude = 37.7749;
-//     const longitude = -122.4194;
-
-//     return (
-//       <div>
-//         <h1>My Page</h1>
-//         <MapComponent latitude={latitude} longitude={longitude} />
-//       </div>
-//     );
-//   }
-//   return <MyPage />;
-// }
-
-export default function Map() {
-  return <div>Hello</div>;
-}
+export default Home;
