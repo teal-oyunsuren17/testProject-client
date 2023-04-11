@@ -5,10 +5,7 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const libraries = useMemo(() => ["places"], []);
-  const mapCenter = useMemo(
-    () => ({ lat: 27.672932021393862, lng: 85.31184012689732 }),
-    []
-  );
+  const mapCenter = useMemo(() => ({ lat: 47.920635, lng: 106.917431 }), []);
 
   const mapOptions = useMemo<google.maps.MapOptions>(
     () => ({
@@ -30,15 +27,13 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.homeWrapper}>
-      <div className={styles.sidebar}>
-        <p>This is Sidebar...</p>
-      </div>
+      <div className={styles.sidebar}></div>
       <GoogleMap
         options={mapOptions}
         zoom={14}
         center={mapCenter}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerStyle={{ width: "800px", height: "800px" }}
+        mapContainerStyle={{ width: "100vw", height: "100vh" }}
         onLoad={() => console.log("Map Component Loaded...")}
       />
     </div>
